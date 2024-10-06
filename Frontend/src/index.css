@@ -1,0 +1,77 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.upload-icon {
+  position: relative;
+}
+select {
+  appearance: none;
+}
+.upload-icon::after {
+  content: url(/src/assets/upload-icon.png);
+  content: "";
+  background-image: url(/src/assets/upload-icon.png);
+  position: absolute;
+  right: 5px;
+  top: 13px;
+  width: 20px;
+  height: 20px;
+  /* background: red; */
+  z-index: 99999;
+  /* font-size: 20px; */
+  background-size: 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+:-webkit-file-upload-button {
+  display: none;
+}
+::file-selector-button {
+  display: none;
+}
+input[type="file"] {
+  color: transparent; /* Makes the text transparent */
+}
+
+input[type="file"]::file-selector-button {
+  display: none; /* Hides the default button */
+}
+
+input[type="file"]:focus {
+  outline: none; /* Remove focus outline */
+}
+
+input[type="file"]::-webkit-file-upload-button {
+  visibility: hidden; /* Hides the default file upload button in WebKit browsers */
+}
+
+/* Custom styling for the file input */
+input[type="file"] {
+  width: 100%; /* Maintain width */
+  padding: 0.5rem; /* Maintain padding */
+  border: 1px solid #d1d5db; /* Border styling */
+  border-radius: 0.375rem; /* Rounded corners */
+}
+
+label {
+  cursor: pointer; /* Changes cursor to pointer for better UX */
+}
+
+.down-icon::after {
+  content: url(/src/assets/down-icon.png);
+  content: "";
+  background-image: url(/src/assets/down-icon.png);
+  position: absolute;
+  right: 5px;
+  top: 17px;
+  width: 20px;
+  height: 20px;
+  /* background: red; */
+  z-index: 99999;
+  /* font-size: 20px; */
+  background-size: 100%;
+  background-repeat: no-repeat;
+  pointer-events: none;
+}

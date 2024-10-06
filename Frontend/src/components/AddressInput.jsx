@@ -46,13 +46,13 @@ function AddressInput({
               onBlur={handleBlur}
               disabled={disabled}
               className={`rounded-md p-2 border ${
-                errors?.street1 && touched?.street2
+                errors?.street2 && touched?.street2
                   ? "border-red-500"
                   : "border-gray-300"
               }`}
             />
-            {errors?.street1 && touched?.street1 && (
-              <p className="text-sm text-red-500">{errors.street1}</p>
+            {errors?.street2 && touched?.street2 && (
+              <p className="text-sm text-red-500">{errors.street2}</p>
             )}
           </section>
         </section>

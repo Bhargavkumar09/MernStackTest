@@ -99,6 +99,7 @@ function TestForm() {
             error={formik.errors.dateOfBirth}
             touched={formik.touched.dateOfBirth}
           />
+          <p>(Min. age should be 18 Years)</p>
           <AddressInput
             title="Residential Address"
             value={formik.values.residentialAddress}

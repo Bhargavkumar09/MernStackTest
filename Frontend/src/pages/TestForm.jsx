@@ -5,6 +5,7 @@ import AddressInput from "../components/AddressInput";
 import DocumentInput from "../components/DocumentInput";
 import Input from "../components/Input";
 import validationSchema from "../utils/validation";
+import { useEffect } from "react";
 
 function TestForm() {
   const formik = useFormik({
@@ -19,7 +20,7 @@ function TestForm() {
         { fileName: "", fileType: "", file: null },
         { fileName: "", fileType: "", file: null },
       ],
-      sameAddress: true,
+      sameAddress: false,
     },
     validationSchema,
     onSubmit: async (values) => {
@@ -31,6 +32,28 @@ function TestForm() {
       }
     },
   });
+
+  useEffect(() => {
+    if (formik.values.sameAddress) {
+      formik.setFieldValue(
+        "permanentAddress",
+        formik.values.residentialAddress
+      );
+    }
+  }, [formik.values.residentialAddress]);
+
+  const handleSameAddressChange = (e) => {
+    const isChecked = e.target.checked;
+    formik.setFieldValue("sameAddress", isChecked);
+
+    if (isChecked) {
+      formik.setFieldValue(
+        "permanentAddress",
+        formik.values.residentialAddress
+      );
+    }
+  };
+
   const addDocument = () => {
     formik.setFieldValue("documents", [
       ...formik.values.documents,
@@ -87,6 +110,7 @@ function TestForm() {
             error={formik.errors.email}
             touched={formik.touched.email}
           />
+
           <Input
             type="date"
             id="dateOfBirth"
@@ -99,11 +123,25 @@ function TestForm() {
             error={formik.errors.dateOfBirth}
             touched={formik.touched.dateOfBirth}
           />
+
           <AddressInput
             title="Residential Address"
             value={formik.values.residentialAddress}
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
+            handleChange={(e) => {
+              formik.handleChange({
+                target: {
+                  name: `residentialAddress.${e.target.id}`,
+                  value: e.target.value,
+                },
+              });
+            }}
+            handleBlur={(e) => {
+              formik.handleBlur({
+                target: {
+                  name: `residentialAddress.${e.target.id}`,
+                },
+              });
+            }}
             touched={formik.touched.residentialAddress}
             errors={formik.errors.residentialAddress}
             required={true}
@@ -112,9 +150,11 @@ function TestForm() {
             <input
               id="sameAddress"
               type="checkbox"
-              value={formik.values.sameAddress}
+              checked={formik.values.sameAddress}
+              onChange={handleSameAddressChange}
               className="w-5 h-5"
             />
+            {console.log(formik.values.sameAddress, "111")}
             <label className="ml-2 " htmlFor="sameAddress">
               Same as Residential Address
             </label>
@@ -122,8 +162,21 @@ function TestForm() {
           <AddressInput
             title="Permanent Address"
             value={formik.values.permanentAddress}
-            handleChange={formik.handleChange}
-            handleBlur={formik.handleBlur}
+            handleChange={(e) => {
+              formik.handleChange({
+                target: {
+                  name: `permanentAddress.${e.target.id}`,
+                  value: e.target.value,
+                },
+              });
+            }}
+            handleBlur={(e) => {
+              formik.handleBlur({
+                target: {
+                  name: `permanentAddress.${e.target.id}`,
+                },
+              });
+            }}
             touched={formik.touched.permanentAddress}
             errors={formik.errors.permanentAddress}
             disabled={formik.values.sameAddress}

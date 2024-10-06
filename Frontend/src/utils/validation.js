@@ -1,18 +1,29 @@
 import * as Yup from "yup";
 
-const isAdult = (dob) => {
+const isAdult = (dateOfBirth) => {
+  if (!dateOfBirth) return false;
+
   let today = new Date();
-  const birthdate = new Date(dob);
-  const age = today.getFullYear - birthdate.getFullYear;
-  const monthDiff = today.getMonth - birthdate.getMonth;
-  return age > 18 || (age === 18 && monthDiff >= 0);
+  const dob = new Date(dateOfBirth);
+  const age = today.getFullYear() - dob.getFullYear();
+  const monthDifference = today.getMonth() - dob.getMonth();
+  console.log(dob, age, monthDifference);
+  if (
+    monthDifference < 0 ||
+    (monthDifference === 0 && today.getDate() < dob.getDate())
+  ) {
+    return age >= 18;
+  }
+  return age >= 18;
 };
 
 const validationSchema = Yup.object({
-  firstName: Yup.string().required("First Name is required"),
+  firstName: Yup.string()
+    .min(3, "Minimum three characters required")
+    .required("First Name is required"),
   lastName: Yup.string().required("Last Name is required"),
   email: Yup.string()
-    .email("Invalid Email Format")
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Invalid Email Format")
     .required("Email is required"),
   dateOfBirth: Yup.date()
     .required("Date of Birth is required")
